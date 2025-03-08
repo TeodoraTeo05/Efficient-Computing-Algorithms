@@ -1,13 +1,60 @@
-# Teodorescu Teodora-Nicola 325CA
+# Efficient Computing Algorithms
 
-## Problema 1: Numarare
+## Overview
+This repository contains optimized algorithmic solutions to computational problems, focusing on efficiency, scalability, and structured problem-solving. The implementations leverage key techniques such as **binary search**, **dynamic programming**, **graph algorithms**, and **shortest path computations** to solve real-world computational challenges.
 
-Aceasta problema gaseste numarul de lanturi elementare comune intre doua grafuri aciclice orientate. Un lant elementar este un drum in care toate nodurile sunt distincte si exista o muchie orientata de la fiecare nod la urmatorul în secventa. Primul pas in rezolvarea acestei probleme a fost sa citesc datele din fisierul de input si sa construiesc cele doua grafuri, folosind liste de adiacenta. Mai departe, am construit un graf comun care pastreaza doar muchiile care sunt comune in ambele grafuri, pentru a restrange cautarea. Fiind un graf orientat si aciclic, m am folosit de algoritmul lui Kahn pentru dortarea topologica a grafului comun, pe care am studiat-o la laborator. Acesta functioneaza prin identificarea nodurilor cu muchii cu grad de intrare zero, adaugandu-le intr-o coada si procesandu-le iterativ. Pentru fiecare nod procesat, eliminam muchiile incidente si actualizam gradele de intrare ale vecinilor. Nodurile cu grad de intrare zero sunt adaugate in coada, iar procesul continua pana cand toate nodurile sunt procesate. La final ne returneaza ordinea necesara pentru a calcula numarul de lanturi elementare. Avand aceasta sortare, folosim programare dinamica pentru a afla numarul de drumuri. Numaram lanturile elementare de la nodul initial la nodul final. Pentru fiecare nod in ordinea topologica, actualizam numarul de drumuri pentru vecinii sai, asigurandu-ne ca adunam numarul de drumuri cu modulo. Rezultatul final, care reprezinta numarul de lanturi elementare comune, il pasam fisierului de iesire. Complexitatea algoritmului este O(noduri+muchii).
+## Features
+- **Graph processing** using topological sorting and Dijkstra’s algorithm.
+- **Dynamic programming** for efficient path counting and optimization.
+- **Binary search** for resource allocation problems.
+- **Greedy and heuristic approaches** for combinatorial optimization.
+- **Efficient memory management** for handling large-scale data.
 
-## Problema 2: Trenuri
+## Project Structure
+This project includes solutions to three computational challenges, each with a structured approach.
 
-Aceasta problema gaseste numarul de orase distincte care pot fi vizitate intre orasul sursa si orasul destinatie. Ideea problemei este de a construi un graf orientat din datele de intrare, sa il sortam topologic pentru a respecta ordinea corecta a vizitarii oraselor si sa folosim programarea dinamica pentru a calcula numarul maxim de orase care pot fi vizitate. Pentru construirea grafului, am folosit lista de adiacenta pe care am reprezentat-o folosind unordered_map, in scopul de a gestiona mai eficient orasele, care sunt date ca string-uri. De asemenea, am un dictionar care foloseste la stocarea datelor de intrare al fiecarui nod. Aplicam algoritmul lui Kahn pentru sortarea topologica a grafului. Algoritmul lui Kahn functioneaza prin identificarea nodurilor fara muchii incidente (grad de intrare zero) si adaugarea lor intr-o coada. Iterativ, eliminam aceste noduri din graf si actualizam gradele de intrare ale vecinilor. Daca un vecin ajunge la grad de intrare zero, il adaugam in coada. In codul nostru, verificam daca un nod are vecini cu if (graph.find(current) != graph.end()) pentru a lucra eficient cu string-uri. Aplicam algoritmul lui Kahn pentru sortarea topologica a grafului. Daca un vecin ajunge la grad de intrare zero, il adaugam in coada. De asemenea, verificam daca un nod are vecini cu "if (graph.find(current) != graph.end())", pentru a lucra eficient cu string-uri. Dupa ce obtinem ordinea topologica a nodurilor, folosim programarea dinamica pentru a calcula numarul maxim de orase distincte. Rezultatul il scriem in fisierul de iesire. Complexitatea algoritmului este O(noduri+muchii).
+### **1. Path Counting in Directed Acyclic Graphs (`numarare.cpp`)**
+This module determines the number of **elementary paths** shared between two directed acyclic graphs (DAGs). An elementary path is a sequence of distinct nodes connected by directed edges.
+- **Approach:**
+  - Read input and construct two adjacency list representations for the graphs.
+  - Build a new graph containing only the edges common to both input graphs.
+  - Apply **Kahn’s algorithm** for **topological sorting** of the common graph.
+  - Use **dynamic programming** to count the number of elementary paths from the start node to the destination.
+  - Compute results modulo \(10^9 + 7\) for numerical stability.
+- **Time Complexity:** O(N + M), where N is the number of nodes and M is the number of edges.
 
-## Problema 3: Drumuri
+### **2. Maximum Cities Visited in a Train Network (`trenuri.cpp`)**
+This module calculates the maximum number of distinct cities that can be visited in a **directed acyclic graph** of train routes between cities.
+- **Approach:**
+  - Construct a **graph** using an unordered map to efficiently store city connections.
+  - Use **Kahn’s algorithm** to obtain a **topological ordering** of the cities.
+  - Apply **dynamic programming** to compute the maximum number of unique cities traversed from the source to the destination.
+  - Efficiently manage city names stored as strings to maintain flexibility in graph operations.
+- **Time Complexity:** O(N + M), ensuring efficient processing for large datasets.
 
-Aceasta problema determina suma minima a drumurilor de la 2 noduri sursa, x si y, pana la nodul destinatie, z, intr-un graf orientat cu costuri pe muchii. Pentru a afla afla drumul minim intr-un graf cu costuri pozitive, am ales sa folosesc algoritmul Dijkstra, pe care l-am invatat din laborator. Acesta functioneaza prin initializarea unui vector de distante cu valori infinite si un set de prioritati pentru a gestiona nodurile de procesat. Nodul sursa are distanta initiala 0 si este adaugat in set. Nodurile sunt procesate iterativ, actualizand distantele pentru vecinii lor daca se gaseste un drum mai scurt. Setul de prioritati asigura ca nodurile sunt procesate in ordinea distantelor minime. Acest proces continua pana cand toate nodurile au fost procesate sau setul de prioritati este gol. Aplicam acest algoritm de 2 ori, pentru a afla distanta de la x la z, dar si de la y la z. Dupa aplicarea algoritmului pentru x si y, rezultatul, reprezentand suma minima a drumurilor, este scris in fisierul de iesire. Complexitatea algoritmului este O((noduri+muchii)log(noduri)).
+### **3. Minimum Path Sum in Weighted Graph (`drumuri.cpp`)**
+This module finds the minimum sum of paths from two source nodes (X and Y) to a common destination (Z) in a weighted directed graph.
+- **Approach:**
+  - Construct a **weighted adjacency list** representation of the graph.
+  - Apply **Dijkstra’s algorithm** separately from X and Y to compute the shortest paths to Z.
+  - Compute the **sum of the two shortest paths** to obtain the minimum required cost.
+- **Time Complexity:** O((N + M) log N), where priority queues optimize the shortest path computations.
+
+## Compilation and Execution
+To compile the project, use:
+```sh
+make
+```
+This generates executables for each algorithm. To run a specific module:
+```sh
+./path_counting
+./max_cities_traversed
+./shortest_path_sum
+```
+
+## Memory Management
+All implementations prioritize **efficient memory usage**, ensuring that dynamically allocated resources are properly managed and deallocated to prevent memory leaks.
+
+## Summary
+This project presents a set of **high-performance computing algorithms**, designed for large-scale computational challenges. The solutions focus on efficiency, modular implementation, and structured algorithmic thinking.
+
